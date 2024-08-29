@@ -4,30 +4,56 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Supper</title>
-		
-		<link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.6.0/styles/default.min.css" rel="stylesheet">
+
+		<link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.6.0/styles/default.min.css" rel="stylesheet" />
 		<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
-		<script>hljs.highlightAll();</script>
 
 		<script src="https://cdn.bootcdn.net/ajax/libs/vue/3.4.38/vue.global.min.js"></script>
 		<script src="./docs.js"></script>
 	</head>
 	<body>
 		<div id="app">
-			<div v-for="item in docList" :key="item.title">
-				<h2>{{item.title}}</h2>
-				<div class="doc_content" v-html="item.content"></div>
+			<div class="app_header">
+				<input type="text" v-model="searchText" placeholder="搜索" />
+				<button @click="clearSearch">清除</button>
+			</div>
+			<div class="doc_scroll">
+				<div v-for="item in docList" :key="item.title">
+					<h2>{{item.title}}</h2>
+					<div class="doc_content" v-html="item.content"></div>
+				</div>
 			</div>
 		</div>
 		<script>
-			const { createApp, ref } = Vue
+			const { createApp, ref, computed, watch, nextTick } = Vue
 
 			createApp({
 				setup() {
 					const docs = window._supper_.docs || []
-					const docList = ref(docs)
+					const searchText = ref('')
+					const docList = computed(() => {
+						return docs.filter((doc) => {
+							return doc.title.includes(searchText.value) || doc.content.includes(searchText.value)
+						})
+					})
+					const clearSearch = () => {
+						searchText.value = ''
+					}
+					watch(
+						docList,
+						() => {
+							nextTick(() => {
+								hljs.highlightAll()
+							})
+						},
+						{
+							immediate: true
+						}
+					)
 					return {
-						docList
+						docList,
+						searchText,
+						clearSearch
 					}
 				}
 			}).mount('#app')
