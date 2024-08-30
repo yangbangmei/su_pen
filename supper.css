@@ -35,7 +35,7 @@ body,
 .doc_scroll {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 15px;
 }
 .doc_scroll .doc_item {
 	padding: 15px;
