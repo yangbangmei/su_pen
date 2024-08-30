@@ -1,0 +1,44 @@
+body {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.7;
+}
+
+html,
+body,
+#app {
+	height: 100%;
+}
+
+.doc_wrapper {
+	max-width: 800px;
+	padding: 0 20px 20px;
+}
+.doc_header {
+	display: flex;
+	align-items: center;
+	justify-content: end;
+	gap: 15px;
+	padding: 20px 0;
+    position: sticky;
+    top: 0;
+    background: #fff;
+}
+.doc_header .doc_search {
+	width: 240px;
+	height: 28px;
+}
+.doc_header .clear_search {
+	height: 33px;
+    cursor: pointer;
+}
+.doc_scroll {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.doc_scroll .doc_item {
+	padding: 15px;
+	border-radius: 10px;
+	background: #f8f9fa;
+}
