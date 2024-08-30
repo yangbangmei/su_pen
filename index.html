@@ -6,10 +6,77 @@
 		<title>Supper</title>
 		<link href="./supper.css" rel="stylesheet" />
 
+		<!-- 初始化全局属性 -->
+		<script>
+			window._supper_ = {
+				// GITHUB_TOKEN: `token xxx`
+			}
+		</script>
+
+		<!-- 代码高亮 -->
 		<link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.6.0/styles/default.min.css" rel="stylesheet" />
 		<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
 
+		<!-- vue -->
 		<script src="https://cdn.bootcdn.net/ajax/libs/vue/3.4.38/vue.global.min.js"></script>
+
+		<!-- axios -->
+		<!-- <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.7.5/axios.min.js"></script> -->
+
+		<!-- axios 封装 -->
+		<!-- <script>
+			const instance = axios.create({
+				baseURL: '/',
+				timeout: 0
+			})
+			instance.interceptors.request.use(
+				(config) => {
+					config.headers.Authorization = window._supper_.GITHUB_TOKEN
+					return config
+				},
+				(err) => Promise.reject(err)
+			)
+			instance.interceptors.response.use(
+				(response) => {
+					return response.data
+				},
+				(err) => Promise.reject(err)
+			)
+			window.axios = instance
+		</script> -->
+
+		<!-- 更新 github 仓库文件 -->
+		<!-- <script>
+			window._supper_.updateDocs = async (docs) => {
+				const repoOwner = 'yangbangmei' // 你的GitHub用户名
+				const repoName = 'su_pen' // 你的仓库名
+				const filePath = 'docs.js' // 文件路径
+				const commitMessage = 'Update docs.js' // 提交信息
+				const branchName = 'main' // 你想要更新的分支，通常是'main'或'master'
+				const personalAccessToken = '' // 你的GitHub个人访问令牌
+				const content = docs // 新的文件内容
+				const encodedContent = window.btoa(content) // 编码内容为base64
+				const apiPath = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`
+
+				// 获取最新的SHA信息
+				const repoRes = await axios.get(apiPath, {
+					params: {
+						ref: branchName
+					}
+				})
+				const { sha } = repoRes || {}
+
+				// 更新内容
+				axios.put(apiPath, {
+					sha,
+					message: commitMessage,
+					content: encodedContent,
+					branch: branchName
+				})
+			}
+		</script> -->
+
+		<!-- 数据库 -->
 		<script src="./docs.js"></script>
 	</head>
 	<body>
@@ -27,7 +94,7 @@
 				</div>
 			</div>
 		</div>
-		<script>
+		<script type="module">
 			const { createApp, ref, computed, watch, nextTick } = Vue
 
 			createApp({
